@@ -81,12 +81,19 @@
                                     "ipConfigurations": [
                                         {
                                             "name": "[concat(parameters('virtualMachineScaleSets_devovpnss_name'),'IpConfig')]",
-                                            "properties": {
-                                                "subnet": {
-                                                    "id": "[parameters('virtualMachineScaleSets_devovpnss_id')]"
-                                                },
-                                                "privateIPAddressVersion": "IPv4"
-                                            }
+																					"properties": {
+																						"publicIPAddressConfiguration": {
+																							"name": "pub1",
+																							"properties": {
+																								"idleTimeoutInMinutes": 15,
+																								"ipTags": []
+																							}
+																						},
+																						"subnet": {
+																							"id": "[parameters('virtualMachineScaleSets_devovpnss_id')]"
+																						},
+																						"privateIPAddressVersion": "IPv4"
+																					}
                                         }
                                     ]
                                 }
