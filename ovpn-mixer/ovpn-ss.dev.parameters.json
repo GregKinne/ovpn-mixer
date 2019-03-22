@@ -1,0 +1,12 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+	"parameters": {
+		"virtualMachineScaleSets_devovpnss_name": {
+			"value": "devovpnss"
+		},
+		"virtualMachineScaleSets_devovpnss_id": {
+			"value": "/subscriptions/760d58b7-294a-4908-b4a5-179c90fe01c4/resourceGroups/dev-ovpn-vnet-rg/providers/Microsoft.Network/virtualNetworks/dev-ovpn-vnet/subnets/ovpn"
+		}
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"virtualNetworks_dev_ovpn_vnet_name": {
+			"value": "dev-ovpn-vnet"
+		},
+		"networkSecurityGroups_dev_ovpn_nsg_name": {
+			"value": "dev-ovpn-nsg"
+		},
+		"subnets_ovpn_name": {
+			"value": "ovpn"
+		},
+		"securityRules_allowssh_name": {
+			"value": "allowssh"
+		}
+	}
+}

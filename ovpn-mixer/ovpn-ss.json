@@ -1,0 +1,105 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachineScaleSets_devovpnss_name": {
+            "defaultValue": "devovpnss",
+            "type": "String"
+        },
+        "virtualMachineScaleSets_devovpnss_id": {
+            "defaultValue": "/subscriptions/760d58b7-294a-4908-b4a5-179c90fe01c4/resourceGroups/dev-ovpn-vnet-rg/providers/Microsoft.Network/virtualNetworks/dev-ovpn-vnet/subnets/ovpn",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "sku": {
+                "name": "Standard_B1ms",
+                "tier": "Standard",
+                "capacity": 1
+            },
+            "name": "[parameters('virtualMachineScaleSets_devovpnss_name')]",
+            "apiVersion": "2018-10-01",
+            "location": "eastus2",
+            "zones": [
+                "1",
+                "2",
+                "3"
+            ],
+            "scale": null,
+            "properties": {
+                "singlePlacementGroup": false,
+                "upgradePolicy": {
+                    "mode": "Manual"
+                },
+                "virtualMachineProfile": {
+                    "osProfile": {
+                        "computerNamePrefix": "[parameters('virtualMachineScaleSets_devovpnss_name')]",
+                        "adminUsername": "ovpnadmin",
+                        "linuxConfiguration": {
+                            "disablePasswordAuthentication": true,
+                            "ssh": {
+                                "publicKeys": [
+                                    {
+                                        "path": "/home/ovpnadmin/.ssh/authorized_keys",
+                                        "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCdV+uacBaX4IfYVN30pMMGJWbHCKcUrC0BOrgZlyAl0PKlOAfBj8pkVyIfAZPJF+5aHTx4TOIeT3nSHPE2ADkz0ZQSnMQDj3s7J4SpD0OTmfiqfkVOYfXQS4oxpyi3nrkRFFQihP8ifKp5UADNF4E7LC3XbfFWr+GWcS5GmUtnmSBykhkcchK+9/Y8noCKM4uYU1zY8s5HUZrTRr99MUaOjNy3tUWSJ1IYF+H4x1URU2B33fSfa5AylZHdGt76rQccq9yCFeAuJ7GA73wWanbzfyggZZaMz2/8OKoW6teBLowgM3fbtbTb4WDwYL9k27SQ+p3sF9h8+RJoCAYleR2z gkinne@GKINNE"
+                                    }
+                                ]
+                            },
+                            "provisionVMAgent": true
+                        },
+                        "secrets": []
+                    },
+                    "storageProfile": {
+                        "osDisk": {
+                            "createOption": "FromImage",
+                            "caching": "ReadWrite",
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
+                            }
+                        },
+                        "imageReference": {
+                            "publisher": "credativ",
+                            "offer": "Debian",
+                            "sku": "9",
+                            "version": "latest"
+                        }
+                    },
+                    "networkProfile": {
+                        "networkInterfaceConfigurations": [
+                            {
+                                "name": "[concat(parameters('virtualMachineScaleSets_devovpnss_name'),'Nic')]",
+                                "properties": {
+                                    "primary": true,
+                                    "enableAcceleratedNetworking": false,
+                                    "dnsSettings": {
+                                        "dnsServers": []
+                                    },
+                                    "enableIPForwarding": false,
+                                    "ipConfigurations": [
+                                        {
+                                            "name": "[concat(parameters('virtualMachineScaleSets_devovpnss_name'),'IpConfig')]",
+                                            "properties": {
+                                                "subnet": {
+                                                    "id": "[parameters('virtualMachineScaleSets_devovpnss_id')]"
+                                                },
+                                                "privateIPAddressVersion": "IPv4"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "priority": "Regular"
+                },
+                "overprovision": true,
+                "zoneBalance": false,
+                "platformFaultDomainCount": 1
+            },
+            "dependsOn": []
+        }
+    ]
+}
