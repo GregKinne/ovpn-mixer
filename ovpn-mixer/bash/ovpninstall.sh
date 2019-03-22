@@ -1,12 +1,12 @@
-﻿{
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-  },
-  "variables": {
-  },
-  "resources": [
-  ],
-  "outputs": {
-  }
-}
+﻿#!/bin/sh
+## Update the System
+sudo apt update && sudo apt upgrade
+
+## Azure root
+sudo -s
+
+## Drop Firewall rules
+iptables -F && iptables -X
+
+## Install persistant firewalls 
+apt install -y iptables-persistent
