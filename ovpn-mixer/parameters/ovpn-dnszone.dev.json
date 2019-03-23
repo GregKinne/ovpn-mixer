@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"dnszone_name": {
+			"value": "kinne.dev"
+		},
+		"ns_record_name": {
+			"value": "ns"
+		},
+		"vpn_Arecord_name": {
+			"value": "vpn"
+		},
+		"soa_record_name": {
+			"value": "@"
+		}
+	}
+}

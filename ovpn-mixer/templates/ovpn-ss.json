@@ -72,11 +72,8 @@
 										{
 											"properties": {
 												"autoUpgradeMinorVersion": true,
-												"settings": {
-													"fileUris": [ "https://raw.githubusercontent.com/GregKinne/ovpn-mixer/master/ovpn-mixer/bash/ovpninstall.sh" ]
-												},
 												"protectedSettings": {
-													"commandToExecute": "sh ovpninstall.sh"
+													"commandToExecute": "sudo apt update && sudo apt upgrade"
 												},
 												"publisher": "Microsoft.OSTCExtensions",
 												"type": "CustomScriptForLinux",
