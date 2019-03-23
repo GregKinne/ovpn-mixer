@@ -29,9 +29,16 @@
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
     <Content Include="README.md" />
+    <None Include="parameters\ovpn-dnszone.prod.json" />
+    <Content Include="parameters\ovpn-dnszone.dev.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="parameters\ovpn-ss.dev.parameters.json" />
     <None Include="parameters\ovpn-vnet.dev.parameters.json" />
     <Content Include="templates\ovpn-ss.json" />
+    <Content Include="templates\ovpn-dnszone.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="templates\ovpn-vnet.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />

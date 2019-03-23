@@ -1,0 +1,105 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dnszone_name": {
+            "defaultValue": "kinne.solutions",
+            "type": "String"
+        },
+        "ns_record_name": {
+            "defaultValue": "@",
+            "type": "String"
+        },
+        "vpn_Arecord_name": {
+            "defaultValue": "vpn",
+            "type": "String"
+        },
+        "soa_record_name": {
+            "defaultValue": "@",
+            "type": "String"
+        },
+        "vpn_Arecord_target_resource": {
+            "defaultValue": "/subscriptions/760d58b7-294a-4908-b4a5-179c90fe01c4/resourceGroups/dev-ovpn-ss-rg/providers/Microsoft.Network/publicIPAddresses/dev-ovpn-lb-ip",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/dnszones",
+            "name": "[parameters('dnszone_name')]",
+            "apiVersion": "2018-05-01",
+            "location": "global",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "zoneType": "Public"
+            },
+            "dependsOn": []
+        },
+        {
+            "type": "Microsoft.Network/dnszones/A",
+            "name": "[concat(parameters('dnszone_name'), '/', parameters('vpn_Arecord_name'))]",
+            "apiVersion": "2018-05-01",
+            "scale": null,
+            "properties": {
+                "TTL": 3600,
+                "targetResource": {
+                    "id": "[parameters('vpn_Arecord_target_resource')]"
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/dnszones', parameters('dnszone_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/dnszones/NS",
+            "name": "[concat(parameters('dnszone_name'), '/', parameters('ns_record_name'))]",
+            "apiVersion": "2018-05-01",
+            "scale": null,
+            "properties": {
+                "TTL": 172800,
+                "NSRecords": [
+                    {
+                        "nsdname": "ns1-02.azure-dns.com."
+                    },
+                    {
+                        "nsdname": "ns2-02.azure-dns.net."
+                    },
+                    {
+                        "nsdname": "ns3-02.azure-dns.org."
+                    },
+                    {
+                        "nsdname": "ns4-02.azure-dns.info."
+                    }
+                ],
+                "targetResource": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/dnszones', parameters('dnszone_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/dnszones/SOA",
+            "name": "[concat(parameters('dnszone_name'), '/', parameters('soa_record_name'))]",
+            "apiVersion": "2018-05-01",
+            "scale": null,
+            "properties": {
+                "TTL": 3600,
+                "SOARecord": {
+                    "email": "azuredns-hostmaster.microsoft.com",
+                    "expireTime": 2419200,
+                    "host": "ns1-02.azure-dns.com.",
+                    "minimumTTL": 300,
+                    "refreshTime": 3600,
+                    "retryTime": 300,
+                    "serialNumber": 1
+                },
+                "targetResource": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/dnszones', parameters('dnszone_name'))]"
+            ]
+        }
+    ]
+}
