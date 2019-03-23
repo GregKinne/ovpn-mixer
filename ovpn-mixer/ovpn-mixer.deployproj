@@ -23,15 +23,16 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
-    <Content Include="ovpn-vnet.dev.parameters.json" />
-    <Content Include="ovpn-vnet.json" />
-    <Content Include="ovpn-ss.dev.parameters.json" />
-    <Content Include="ovpn-ss.json" />
+    <None Include="bash\ovpninstall.sh" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
     <Content Include="README.md" />
+    <None Include="parameters\ovpn-ss.dev.parameters.json" />
+    <None Include="parameters\ovpn-vnet.dev.parameters.json" />
+    <Content Include="templates\ovpn-ss.json" />
+    <None Include="templates\ovpn-vnet.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>
